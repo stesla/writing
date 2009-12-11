@@ -1,0 +1,53 @@
+-*- Outline -*-
+
+* What is Go?
+** Simple, fast, safe, concurrent
+** Designed to solve the kinds of problems Google faces
+** Essentially C 2.0
+** Experimental
+
+* Syntax
+** Types last
+** ++ and -- are statements
+** Multiple assignment, multiple return
+** arrays & slices
+*** zero-indexed
+*** arrays are essentially tuples, their size is part of their type
+*** slices offer a window onto an array, more convenient most of the time
+** maps (w/examples)
+** if/switch/for do not require parens
+** if/switch initializer; condition syntax
+** switch
+*** not just for ints anymore
+*** fallthrough is explicit, not default
+** for
+*** initilizer/condition/step
+*** range
+*** infinite
+
+* Object Orientation
+** structs with methods, natural evolution of OOP in C
+** slot inheritence, auto-delegation
+** interfaces are statically checked duck-typing
+*** static vs dynamic typing vs checking
+** downcasting comes with a success check
+** switches on type
+** reflect package
+
+* Concurrency
+** Motto
+Do not communicate by sharing memory; instead, share memory by communicating.
+** Goroutines
+*** user-space, lightweight concurrency
+*** mapped on to OS concurrency by the runtime
+** Channels
+*** Essentially FIFO communication queue.
+*** blocking vs non-blocking
+
+* What's Missing
+** Exceptions
+*** ok/err pattern
+** Generics
+** Libraries and IDEs
+*** Emacs mode
+*** Good start of a standard library

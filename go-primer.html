@@ -1,0 +1,123 @@
+<p>Google recently announced their new programming language, Go.</p>
+
+<!-- More introduction here -->
+
+<h2>What is Go?</h2>
+
+<h2>Reading Go</h2>
+
+<p>Go's syntax continues in the same vein as C's. Programs are organized as functions whose bodies are a sequence of statements. Blocks of code are surrounded by curly-braces. The language has a limited set of reserved keywords. Expressions use the same infix operators. There are very few syntactical surprises.</p>
+
+<p>The Go authors have adhered to a single guiding principle when designing the language: simplicity and clarity above all else. Several of the new syntactical constructs provide concise means to express common idioms that are more verbose in C. Others address language choices that, after several decades of use, have been shown to be unwise.</p>
+
+<h3>Variable Declarations</h3>
+
+<p>Variables are declared as follows:</p>
+
+<blockquote><pre>var sum int // Just a declaration
+var total int = 42 // A declaration with initialization</pre></blockquote>
+
+<p>Most notably, the type in these declarations comes <em>after</em> the variable name. This may seem strange at first, but has some benefits on clarity. For example, take the following snippet of C:</p>
+
+<blockquote><pre>int* a, b;</pre></blockquote>
+
+<p>It is not apparent, but that actually means that <code>a</code> is a pointer and <code>b</code> is not. In order to declare them both pointers, the asterisk must be repeated. However in Go, they can both be declared pointers as follows:</p>
+
+<blockquote><pre>var a, b *int</pre></blockquote>
+
+<p>If a variable is being initialized, the compiler can typically infer its type, so it is not necessary for the programmer to type it out:</p>
+
+<blockquote><pre>var label = "name"</pre></blockquote>
+
+<p>However, at that point, the <code>var</code> keyword is almost superfluous. So, the Go authors introduced a new assignment operator which both declares and initializes a new variable:</p>
+
+<blockquote><pre>name := "Samuel"</pre></blockquote>
+
+<h3>Conditionals</h3>
+
+<p>Conditionals in Go have the familiar if-else construction as those in C, but the condition need not be wrapped in parentheses. This creates less visual clutter when reading code.</p>
+
+<p>Parentheses are not the only clutter that have been removed. A simple statement can be included before the condition so that the following code:</p>
+
+<blockquote><pre>result := someFunc();
+if result > 0 {
+	/* Do something */
+} else {
+	/* Handle error */
+}</pre></blockquote>
+
+<p>Can be reduced to this:</p>
+
+<blockquote><pre>if result := someFunc(); result > 0 { 
+	/* Do something */
+} else {
+	/* Handle error */
+}</pre></blockquote>
+
+<p>However, in the latter example, <code>result</code> is only in scope inside the conditional block. Whereas before it had to be in the containing scope.</p>
+
+<h3>Switches</h3>
+
+<p>Switches once again are similar, but improved. Like conditionals, they allow a simple statement to proceed the expression that is being switched upon. However, they deviate even further from their C counterparts.
+
+<p>First, to make switches more concise, two changes were made. Cases can be comma-separated lists of values, and fallthrough is no longer the default behavior.</p>
+
+<p>So, the following C code:</p>
+
+<blockquote><pre>int result;
+switch (byte) {
+ case 'a':
+ case 'b':
+   {
+     result = 1;
+     break;
+   }
+
+ default:
+   result = 0;
+}</pre></blockquote>
+
+<p>Becomes this in Go:</p>
+
+<blockquote><pre>var result int
+switch byte {
+case 'a', 'b':
+	result = 1
+default:
+	result = 2
+}</pre></blockquote>
+
+<p>Second, Go switches can match on much more than integers and characters. Any valid expression can be the value of a case statement, so long as it is the same type as the switch expression.</p>
+
+<p>So, the following C code:</p>
+
+<blockquote><pre>int result = calculate();
+if (result &lt; 0) {
+  /* negative */
+} else if (result &gt; 0) {
+  /* positive */
+} else {
+  /* zero */
+}</pre><blockquote>
+
+<p>Becomes this in Go:</p>
+
+<blockquote><pre>switch result := calculate(); true {
+case result &lt; 0:
+	/* negative */
+case result &gt; 0:
+	/* positive */
+default:
+	/* zero */
+}</pre></blockquote>
+
+<p>That idiom is so common, that if the switch value is omitted, it is assumed to be true. So the above could be rewritten as:</p>
+
+<blockquote><pre>switch result := calculate(); {
+case result &lt; 0:
+	/* negative */
+case result &gt; 0:
+	/* positive */
+default:
+	/* zero */
+}</pre></blockquote>

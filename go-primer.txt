@@ -1,29 +1,34 @@
 -*- Outline -*-
 
 * What is Go?
+** Experimental
 ** Simple, fast, safe, concurrent
 ** Designed to solve the kinds of problems Google faces
 ** Essentially C 2.0
-** Experimental
 
 * Syntax
 ** Types last
-** ++ and -- are statements
-** Multiple assignment, multiple return
-** arrays & slices
-*** zero-indexed
-*** arrays are essentially tuples, their size is part of their type
-*** slices offer a window onto an array, more convenient most of the time
-** maps (w/examples)
-** if/switch/for do not require parens
-** if/switch initializer; condition syntax
-** switch
-*** not just for ints anymore
-*** fallthrough is explicit, not default
-** for
-*** initilizer/condition/step
+** Conditional
+*** No parens required
+*** Condition initializers
+** Improved switch statements
+*** No fallthrough by default
+*** More expressive cases
+** Looping With for
+*** initializer/condition/step
 *** range
 *** infinite
+** Functions
+*** multiple return values
+**** comma-ok pattern
+*** named return variables
+*** anonymous functions (with lexical closure)
+** Data Structures
+*** arrays & slices
+**** zero-indexed
+**** arrays are essentially tuples, their size is part of their type
+**** slices offer a window onto an array, more convenient most of the time
+*** maps (w/examples)
 
 * Object Orientation
 ** structs with methods, natural evolution of OOP in C

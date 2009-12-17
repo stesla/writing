@@ -3,6 +3,10 @@
 <!-- More introduction here -->
 
 <h2>What is Go?</h2>
+** Experimental
+** Simple, fast, safe, concurrent
+** Designed to solve the kinds of problems Google faces
+** Essentially C 2.0
 
 <h2>Reading Go</h2>
 
@@ -121,3 +125,80 @@ case result &gt; 0:
 default:
 	/* zero */
 }</pre>
+
+
+<h3>Loops</h>
+
+Go has only one keyword to introduce a loop. However, it offers all of the looping behaviours available in C except the do-while.
+
+<h4>Condition</h4>
+
+<pre>for a > b { /* ... */ }</pre>
+
+<h4>Initializer, Condition and Step</h4>
+
+<pre>for i := 0; i < 10; i++ { /* ... */ }</pre>
+
+<h4>Range</h4>
+
+The right-hand expression of a range clause must be an array, slice, string or map, or a pointer to an array; or it may be a channel.
+
+<pre>for i := range "hello" { /* ... */ }</pre>
+
+<h4>Infinite</h4>
+
+<pre>for { /* ever */ }</pre>
+
+<h3>Functions</h3>
+*** multiple return values
+**** comma-ok pattern
+*** named return variables
+*** anonymous functions (with lexical closure)
+
+<h3>Built-In Data Structures</h3>
+
+<h4>Arrays</h4>
+**** zero-indexed
+**** arrays are essentially tuples, their size is part of their type
+
+<h4>Slices</h4>
+**** slices offer a window onto an array, more convenient most of the time
+
+<h4>Maps</h4>
+
+<h2>Object Orientation</h2>
+** structs with methods, natural evolution of OOP in C
+** slot inheritence, auto-delegation
+** interfaces are statically checked duck-typing
+*** static vs dynamic typing vs checking
+** downcasting comes with a success check
+** switches on type
+** reflect package
+
+<h2>Concurrency</h2>
+Do not communicate by sharing memory; instead, share memory by communicating.
+
+<h3>Goroutines</h3>
+*** user-space, lightweight concurrency
+*** mapped on to OS concurrency by the runtime
+
+<h3>Channels</h3>
+*** Essentially FIFO communication queue.
+*** blocking vs non-blocking
+
+<h2>Packages</h2>
+** visibility outside of package indicated with Capital letters.
+** multiple files, no headers needed.
+
+<h2>What's Missing
+
+<h3>Exceptions</h3>
+*** ok/err pattern
+
+<h3>Generics</h3>
+
+<h3>Libraries</h3>
+*** Good start of a standard library
+
+<h3>Tools and IDEs</h3>
+*** Emacs mode

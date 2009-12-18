@@ -73,12 +73,12 @@ switch (byte) {
  case 'a':
  case 'b':
    {
-     result = 1;
-     break;
+     result = 1
+     break
    }
 
  default:
-   result = 0;
+   result = 0
 }</pre>
 
 <p>Becomes this in Go:</p>
@@ -86,9 +86,9 @@ switch (byte) {
 <pre>var result int
 switch byte {
 case 'a', 'b':
-	result = 1
+  result = 1
 default:
-	result = 2
+  result = 2
 }</pre>
 
 <p>Second, Go switches can match on much more than integers and characters. Any valid expression can be the value of a case statement, so long as it is the same type as the switch expression.</p>
@@ -108,22 +108,22 @@ if (result &lt; 0) {
 
 <pre>switch result := calculate(); true {
 case result &lt; 0:
-	/* negative */
+  /* negative */
 case result &gt; 0:
-	/* positive */
+  /* positive */
 default:
-	/* zero */
+  /* zero */
 }</pre>
 
 <p>That idiom is so common, that if the switch value is omitted, it is assumed to be true. So the above could be rewritten as:</p>
 
 <pre>switch result := calculate(); {
 case result &lt; 0:
-	/* negative */
+  /* negative */
 case result &gt; 0:
-	/* positive */
+  /* positive */
 default:
-	/* zero */
+  /* zero */
 }</pre>
 
 
@@ -150,10 +150,58 @@ The right-hand expression of a range clause must be an array, slice, string or m
 <pre>for { /* ever */ }</pre>
 
 <h3>Functions</h3>
-*** multiple return values
-**** comma-ok pattern
-*** named return variables
-*** anonymous functions (with lexical closure)
+
+<p>The syntax for declaring functions differs from C. As with variable declarations, types are declared after the terms they describe. So the following function in C:</p>
+
+<pre>int add(int a, b) { return a + b }</pre>
+
+<p>Becomes this function in Go:</p>
+
+<pre>func add(a, b int) int { return a + b }</pre>
+
+<h4>Multiple Return Values</h4>
+
+<p>A common idiom in C is to either reserve a return value to indicate error (e.g. <code>read()</code> returning 0), or to reserve the return value to communicate status and pass in a pointer to a memory location in which to store results. This encourages unsafe programming practices and is not viable in a managed language such as Go.</p>
+
+<p>Recognizing that this problem extends beyond the simple need to communicate both function results and errors, the Go authors built in the capability to return multiple values from a function.</p>
+
+<p>As an example, a function to return both parts of an integer division:</p>
+
+<pre>func divide(a, b int) (int, int) {
+  quotient := a / b
+  remainder := a % b
+  return quotient, remainder
+}</pre>
+
+<p>Recognizing that with multiple return values, it is good to have the code document which is which, you can give the return values names just like parameters. You can then assign values to those return variables just like any other. So we could rewrite <code>divide</code> like this:
+
+<pre>func divide(a, b int) (quotient, remainder int) {
+  quotient = a / b
+  remainder = a % b
+  return
+}</pre>
+
+<p>The presence of multiple-return values has given rise to the comma-ok pattern. Functions which can fail can return a second, boolean, result to indicate success. Alternatively, they can return an error object. So it's not uncommon to see code like this:</p>
+
+<pre>if result, ok := moreMagic(); ok {
+  /* Do something with result */
+}</pre>
+
+<h4>Anonymous Functions</h4>
+
+<p>Having a garbage collector opens the door for a wide variety of features. Among those are anonymous functions. Go provides a simple syntax for declaring anonymous functions. These functions create a lexical closure on the scope in which they were defined like blocks in many dynamic languages.</p>
+
+<p>Consider the following example:</p>
+
+<pre>func makeAdder(x int) (func(int) int) {
+  return func(y int) int { return x + y }
+}
+
+func main() {
+  add5 := makeAdder(5);
+  add36 := makeAdder(36);
+  fmt.Println("The answer:", add5(add36(1))); //=> The answer: 42
+}</pre>
 
 <h3>Built-In Data Structures</h3>
 

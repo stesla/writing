@@ -240,6 +240,26 @@ a[4] == s[2] == t[1] == 6 //=> true
  
 <h4>Maps</h4>
 
+<p>One data type that is present in most every dynamic language that is popular to day, but that is missing from C, is a dictionary. Go offers a primitive dictionary type called a map. The following example shows how to make and use a Go map.</p>
+
+<pre>m := make(map[string] int); // A mapping of strings to ints
+
+/* Store some values */
+m["foo"] = 42
+m["bar"] = 30
+
+/* Read, and cause runtime-error if key is not present. */
+x := m["foo"];
+
+/* Read, with comma-ok check; ok will be false if key was not present. */
+x, ok := m["bar"]
+
+/* Check for presence of key, _ means "I don't care about this value." */
+_, ok := m["baz"] // ok == false
+
+/* Delete a key */
+m["bar"] = nil, false</pre>
+
 <h2>Object Orientation</h2>
 ** structs with methods, natural evolution of OOP in C
 ** slot inheritence, auto-delegation

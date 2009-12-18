@@ -191,9 +191,13 @@ The right-hand expression of a range clause must be an array, slice, string or m
 
 <p>Having a garbage collector opens the door for a wide variety of features. Among those are anonymous functions. Go provides a simple syntax for declaring anonymous functions. These functions create a lexical closure on the scope in which they were defined like blocks in many dynamic languages.</p>
 
-<p>Consider the following example:</p>
+<p>Consider the following complete program:</p>
 
-<pre>func makeAdder(x int) (func(int) int) {
+<pre>package main
+
+import "fmt"
+
+func makeAdder(x int) (func(int) int) {
   return func(y int) int { return x + y }
 }
 
@@ -203,15 +207,37 @@ func main() {
   fmt.Println("The answer:", add5(add36(1))); //=> The answer: 42
 }</pre>
 
-<h3>Built-In Data Structures</h3>
+<h3>Primitive Types</h3>
 
-<h4>Arrays</h4>
-**** zero-indexed
-**** arrays are essentially tuples, their size is part of their type
+<p>Like C, Go offers a handful of primitive types. The usual boolean, integer and floating-point types are available. It has a unicode string type and an array type. The language also introduces two new types: slice and map.</p>
 
-<h4>Slices</h4>
-**** slices offer a window onto an array, more convenient most of the time
+<h4>Arrays & Slices</h4>
 
+<p>Arrays in Go are not dynamic like they are in C. Their size is part of their type, and is determined at compile time. To index into an array the familiar C syntax is used (e.g. <code>a[i]</code>). The compiler provides a built-in function, which is evaluated at compile time, to determine the length of an array (e.g. <code>len(a)</code>). If a write to an index beyond the bounds of an array is attempted, a run-time error will be generated.</p>
+
+<p>Go also offers slices, which put a new twist on arrays. A slice represents a contiguous segment of an array. However, it need not represent the entire array, and can grow up to that limit. Once again, the length of a slice can be determined at compile-time. The capacity of a slice (retrievable by <code>cap(s)</code>, where <code>s</code> is a slice) determines how much room the slice has to grow. To construct a slice from an array (or another slice) the syntax <code>a[lo:hi]</code> is used, where <code>lo</code> is a zero-based index and <code>hi</code> is a one-based index. If a slice that goes to the end of the array is desired, <code>hi</code> may be omitted.</p>
+
+<p>The following code illustrates how arrays and slices work:</p>
+
+<pre>a := [...]int{1,2,3,4,5} // The ... means "whatever length the initializer has"
+len(a) //=> 5
+
+/* Slice from the middle */
+s := a[2:4] //=> [3 4]
+len(s), cap(s) //=> 2, 3
+
+/* Grow the slice */
+s = s[0:3] //=> [3 4 5]
+len(s), cap(s) //=> 3, 3
+
+/* Slice all the way to the end */
+t := a[3:] //=> [4 5]
+
+/* They all share the same array */
+a[4] = 6
+a[4] == s[2] == t[1] == 6 //=> true
+</pre>
+ 
 <h4>Maps</h4>
 
 <h2>Object Orientation</h2>

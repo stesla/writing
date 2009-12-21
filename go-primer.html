@@ -191,13 +191,9 @@ The right-hand expression of a range clause must be an array, slice, string or m
 
 <p>Having a garbage collector opens the door for a wide variety of features. Among those are anonymous functions. Go provides a simple syntax for declaring anonymous functions. These functions create a lexical closure on the scope in which they were defined like blocks in many dynamic languages.</p>
 
-<p>Consider the following complete program:</p>
+<p>Consider the following program:</p>
 
-<pre>package main
-
-import "fmt"
-
-func makeAdder(x int) (func(int) int) {
+<pre>func makeAdder(x int) (func(int) int) {
   return func(y int) int { return x + y }
 }
 
@@ -261,13 +257,144 @@ _, ok := m["baz"] // ok == false
 m["bar"] = nil, false</pre>
 
 <h2>Object Orientation</h2>
-** structs with methods, natural evolution of OOP in C
-** slot inheritence, auto-delegation
-** interfaces are statically checked duck-typing
-*** static vs dynamic typing vs checking
-** downcasting comes with a success check
-** switches on type
-** reflect package
+
+<p>The Go language supports a style of object-oriented programming similar to that used in C. Data is grouped together into structs, and then functions are defined which operate on those structs. Similar to Python, the language offers a way to define the functions and then call them so that the syntax is not cumbersome.</p>
+
+<h3>Structs</h3>
+
+<p>Declaring a new struct type is simple:</p>
+
+<pre>type Point struct {
+  x, y float64
+}</pre>
+
+<p>Values of this type can now be allocated using the built-in function <code>new</code>, which returns a pointer to the value in memory with all slots initialized to the zero value.</p>
+
+<pre>var p *Point = new(Point)
+p.x = 3
+p.y = 4</pre>
+
+<p>That can get verbose, and one of the goals of the Go language is to be concise whenever possible. So a  syntax is provided that both allocates and initializes the struct at the same time:</p>
+
+<pre>var p1 Point = Point{3,4}  // Value
+var p2 *Point = &amp;Point{3,4} // Pointer</pre>
+
+<h3>Methods</h3>
+
+<p>Once a type has been declared, functions can be declared which take that type as an implicit first parameter:</p>
+
+<pre>func (self Point) Length() float {
+  return math.Sqrt(self.x*self.x + self.y*self.y);
+}</pre>
+
+<p>Those functions can then be called as methods on the struct:</p>
+
+<pre>p := Point{3,4}
+d := p.Length() //=> 5</pre>
+
+<p>Methods can actually be declared on both value and pointer types. Go will handle referencing or dereferencing objects as appropriate, so it is possible to declare methods on both type <code>T</code> and type <code>*T</code> and have them be used as appropriate.</p>
+
+<p>Let us extend our <code>Point</code> class with a mutator:</p>
+
+<pre>
+/* Note the receiver is *Point */
+func (self *Point) Scale(factor float64) {
+  self.x = self.x * factor
+  self.y = self.y * factor
+}<pre>
+
+<p>Then we can call it like this:</p>
+
+<pre>p.Scale(2);
+d = p.Length() //=> 10</pre>
+
+<p>It is important to understand that the <code>self</code> that is passed in to <code>MoveToXY</code> is a parameter like any other, and parameters are passed-by-value. That is why it must be declared as a pointer type in order to actually change the value. If it were declared as just <code>Point</code>, then the struct that was modified inside the method would not be the same one at the call site.</p>
+
+<h3>Interfaces</h3>
+
+<p>Dynamic languages such as Ruby emphasize a style of object-oriented programming that places more importance on what behavior an object has rather than what type that object is. One of the most powerful features that Go brings with it is the ability to program with that duck-typed mentality, and check for adherence to those defined behaviors at compile time. The name given to the behaviors is <em>interfaces</em>.</p>
+
+<p>Defining an interface is simple:</p>
+
+<pre>type Writer interface {
+  Write(p []byte) (n int, err os.Error)
+}</pre>
+
+<p>That defines an interface with a method for writing a buffer of bytes. Any object which implements that method also implements the interface. No declarations are required as in Java, the compiler just figures it out. This gives the expressiveness of duck-typing with the safety of static type-checking.</p>
+
+<p>The way interfaces behave in Go allows develoeprs to discover their programs' types as they write them. If there are several objects that all have the behavior, and a programmer wishes to abstract on that behavior, she can create an interface and then use that.</p>
+
+<p>Consider the following code:</p>
+
+<pre>// Somewhere in some code:
+type Widget struct {}
+func (Widget) Frob() { /* do something */ }
+
+// Somewhere else in the code:
+type Sprocket struct {}
+func (Sprocket) Frob() { /* do something else */ }
+
+/* New code, and we want to take both Widgets and Sprockets and Frob them */
+type Frobber interface {
+  Frob()
+}
+
+func frobtastic(f Frobber) { f.Frob() }</pre>
+
+<p>It is important to note that every object implements the empty interface:</p>
+
+<pre>interface {}</pre>
+
+<h3>Inheritance</h3>
+
+<p>The Go language does not have inheritance, at least not the way most languages do. There is no hierarchy of types. Go encourages the use of composition and delegation over inheritance, and offers some syntax sugar to make it more bearable.</p>
+
+<p>Given these definitions:</p>
+
+<pre>type Engine interface {
+  Start()
+  Stop()
+}
+
+type Car struct {
+  Engine
+}</pre>
+
+<p>I can then write the following:</p>
+
+<pre>func GoToWorkIn(c Car) {
+  /* get in car */
+
+  c.Start();
+
+  /* drive to work */
+
+  c.Stop();
+
+  /* get out of car */
+}</pre>
+
+<p>When I declared the <code>Car</code> struct, I gave it what is called an <em>anonymous member</em>. That is a member which is identified only by its type. The anonymous member is a member like any other, with a name the same as the type. So I could have also written <code>c.Engine.Start()</code>. The compiler automatically delegates calls made on <code>Car</code> to methods on its <code>Engine</code> if the <code>Car</code> does not have methods of its own to satisfy them.</p>
+
+<p>It is important to note, though, that this is syntax sugar on top of <em>delegation</em> not inheritence. Once the anonymous member's method has been called, flow has been delegated to that method entirely. So you cannot simulate type hierarchy like this:</p>
+
+<pre>type Base struct {}
+func (Base) Magic() { fmt.Print("base magic") }
+func (self Base) MoreMagic() { 
+  self.Magic()
+  self.Magic()
+}
+
+type Foo struct {
+  Base
+}
+func (Foo) Magic() { fmt.Print("foo magic") }</pre>
+
+<p>When you create a <code>Foo</code> object, it will respond to both methods that <code>Base</code> does. However, when you call <code>MoreMagic</code> you will not get the results you expect:</p>
+
+<pre>f := new(Foo)
+f.Magic() //=> foo magic
+f.MoreMagic() //=> base magic base magic</pre>
 
 <h2>Concurrency</h2>
 Do not communicate by sharing memory; instead, share memory by communicating.

@@ -79,7 +79,7 @@ if result > 0 {
 
 <p>Can be reduced to this:</p>
 
-<pre>if result := someFunc(); result > 0 { 
+<pre>if result := someFunc(); result &gt; 0 { 
 	/* Do something */
 } else {
 	/* Handle error */
@@ -171,11 +171,11 @@ the looping behaviours available in C except the do-while.
 
 <h4>Condition</h4>
 
-<pre>for a > b { /* ... */ }</pre>
+<pre>for a &gt; b { /* ... */ }</pre>
 
 <h4>Initializer, Condition and Step</h4>
 
-<pre>for i := 0; i < 10; i++ { /* ... */ }</pre>
+<pre>for i := 0; i &lt; 10; i++ { /* ... */ }</pre>
 
 <h4>Range</h4>
 
@@ -256,9 +256,9 @@ many dynamic languages.</p>
 }
 
 func main() {
-  add5 := makeAdder(5);
-  add36 := makeAdder(36);
-  fmt.Println("The answer:", add5(add36(1))); //=> The answer: 42
+  add5 := makeAdder(5)
+  add36 := makeAdder(36)
+  fmt.Println("The answer:", add5(add36(1))) //=> The answer: 42
 }</pre>
 
 <h3>Primitive Types</h3>
@@ -268,7 +268,7 @@ integer and floating-point types are available. It has a unicode
 string type and an array type. The language also introduces two new
 types: slice and map.</p>
 
-<h4>Arrays & Slices</h4>
+<h4>Arrays &amp; Slices</h4>
 
 <p>Arrays in Go are not dynamic like they are in C. Their size is part
 of their type, and is determined at compile time. To index into an
@@ -318,14 +318,14 @@ is popular to day, but that is missing from C, is a dictionary. Go
 offers a primitive dictionary type called a map. The following example
 shows how to make and use a Go map.</p>
 
-<pre>m := make(map[string] int); // A mapping of strings to ints
+<pre>m := make(map[string] int) // A mapping of strings to ints
 
 /* Store some values */
 m["foo"] = 42
 m["bar"] = 30
 
 /* Read, and cause runtime-error if key is not present. */
-x := m["foo"];
+x := m["foo"]
 
 /* Read, with comma-ok check; ok will be false if key was not present. */
 x, ok := m["bar"]
@@ -569,10 +569,10 @@ purpose.</p>
 ch := make(chan int)
 
 /* Sending a value blocks until the value is read */
-ch <- 4
+ch &lt;- 4
 
 /* Reading a value blocks until a value is available */
-i := <-ch</pre>
+i := &lt;-ch</pre>
 
 <p>For example, if we wanted to do some long-running numerical
 computation we could do this:</p>
@@ -581,15 +581,15 @@ computation we could do this:</p>
 
 go func() {
   result := 0
-  for i := 0; i < 100000000; i++ {
+  for i := 0; i &lt; 100000000; i++ {
     result = result + i
   }
-  ch <- result
+  ch &lt;- result
 }()
 
 /* Do something for a while */
 
-sum := <-ch // This will block if the calculation is not done yet
+sum := &lt;-ch // This will block if the calculation is not done yet
 fmt.Println("The sum is:", sum)</pre>
 
 <p>The blocking behavior of channels is not always the best. The
@@ -604,10 +604,10 @@ operation succeeded.</p>
 ch := make(chan int, 5)
 
 /* Send without blocking, ok will be true if value was buffered */
-ok := ch <- 42
+ok := ch &lt;- 42
 
 /* Read without blocking, ok will be true if a value was read */
-val, ok := <-ch</pre>
+val, ok := &lt;-ch</pre>
 
 <h2>Packages</h2>
 

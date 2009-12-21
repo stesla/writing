@@ -648,13 +648,21 @@ func (self *Point) setY(y float64) { self.y = y }</pre>
 
 <h2>What's Missing
 
-<h3>Exceptions</h3>
-*** ok/err pattern
+<p>The Go authors have tried to let clarity of code guide all of their
+decisions regarding the design of the language. A secondary mission
+has been to produce a language which compiles quickly. With these two
+criteria to steer them, many features from other languages have not
+made it in. Many programmers will find that their favorite language
+feature is not present. Indeed, some feel that the language is
+unsuable for lack of certain features common in other languages.</p>
 
-<h3>Generics</h3>
+<p>Two such featues are exceptions and generics. Neither are currently
+part of the Go language...yet. The language is still very young, and
+it is still highly experimental. However, it is important not to
+compare Go to languages such as Java, as it was not meant to compete
+in that arena. When looking at Go, compare it to C.</p>
 
-<h3>Libraries</h3>
-*** Good start of a standard library
-
-<h3>Tools and IDEs</h3>
-*** Emacs mode
+<p>Since the language is young, it does not have much in the way of
+libraries or tools. There are no IDEs for Go. There is a standard
+library with some useful code, but it is very small compared to what
+is availble in more mature languages.</p>

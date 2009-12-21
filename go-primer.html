@@ -605,8 +605,46 @@ ok := ch <- 42
 val, ok := <-ch</pre>
 
 <h2>Packages</h2>
-** visibility outside of package indicated with Capital letters.
-** multiple files, no headers needed.
+
+<p>Go offers a simple mechanism for organizing code: packages. Each
+file begins with a simple declaration of what package it belongs
+to. Each file can import the packages it uses. Names are exported
+from a package simply by virtue of beginning with a capital
+letter.</p>
+
+<p>Here is a complete source file:</p>
+
+<pre>package geometry
+
+import "math"
+
+/* Point is capitalized, so it is visible outside the package. */
+
+type Point struct {
+
+  /* the fields are not capitalized, so they are not visible
+     outside of the package */
+
+  x, y float64 
+}
+
+/* These functions are visible outside of the package */
+
+func (self Point) Length() float64 {
+  /* This uses a function in the math package */
+  return math.Sqrt(self.x*self.x + self.y*self.y)
+}
+
+func (self *Point) Scale(factor float64) {
+  self.setX(self.x * factor)
+  self.setY(self.y * factor)
+}
+
+/* These functions are not visible outside of the package, but can be
+   used inside the package */
+
+func (self *Point) setX(x float64) { self.x = x }
+func (self *Point) setY(y float64) { self.y = y }</pre>
 
 <h2>What's Missing
 

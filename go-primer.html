@@ -10,9 +10,18 @@
 
 <h2>Reading Go</h2>
 
-<p>Go's syntax continues in the same vein as C's. Programs are organized as functions whose bodies are a sequence of statements. Blocks of code are surrounded by curly-braces. The language has a limited set of reserved keywords. Expressions use the same infix operators. There are very few syntactical surprises.</p>
+<p>Go's syntax continues in the same vein as C's. Programs are
+organized as functions whose bodies are a sequence of
+statements. Blocks of code are surrounded by curly-braces. The
+language has a limited set of reserved keywords. Expressions use the
+same infix operators. There are very few syntactical surprises.</p>
 
-<p>The Go authors have adhered to a single guiding principle when designing the language: simplicity and clarity above all else. Several of the new syntactical constructs provide concise means to express common idioms that are more verbose in C. Others address language choices that, after several decades of use, have been shown to be unwise.</p>
+<p>The Go authors have adhered to a single guiding principle when
+designing the language: simplicity and clarity above all else. Several
+of the new syntactical constructs provide concise means to express
+common idioms that are more verbose in C. Others address language
+choices that, after several decades of use, have been shown to be
+unwise.</p>
 
 <h3>Variable Declarations</h3>
 
@@ -21,27 +30,40 @@
 <pre>var sum int // Just a declaration
 var total int = 42 // A declaration with initialization</pre>
 
-<p>Most notably, the type in these declarations comes <em>after</em> the variable name. This may seem strange at first, but has some benefits on clarity. For example, take the following snippet of C:</p>
+<p>Most notably, the type in these declarations comes <em>after</em>
+the variable name. This may seem strange at first, but has some
+benefits on clarity. For example, take the following snippet of C:</p>
 
 <pre>int* a, b;</pre>
 
-<p>It is not apparent, but that actually means that <code>a</code> is a pointer and <code>b</code> is not. In order to declare them both pointers, the asterisk must be repeated. However in Go, they can both be declared pointers as follows:</p>
+<p>It is not apparent, but that actually means that <code>a</code> is
+a pointer and <code>b</code> is not. In order to declare them both
+pointers, the asterisk must be repeated. However in Go, they can both
+be declared pointers as follows:</p>
 
 <pre>var a, b *int</pre>
 
-<p>If a variable is being initialized, the compiler can typically infer its type, so it is not necessary for the programmer to type it out:</p>
+<p>If a variable is being initialized, the compiler can typically
+infer its type, so it is not necessary for the programmer to type it
+out:</p>
 
 <pre>var label = "name"</pre>
 
-<p>However, at that point, the <code>var</code> keyword is almost superfluous. So, the Go authors introduced a new assignment operator which both declares and initializes a new variable:</p>
+<p>However, at that point, the <code>var</code> keyword is almost
+superfluous. So, the Go authors introduced a new assignment operator
+which both declares and initializes a new variable:</p>
 
 <pre>name := "Samuel"</pre>
 
 <h3>Conditionals</h3>
 
-<p>Conditionals in Go have the familiar if-else construction as those in C, but the condition need not be wrapped in parentheses. This creates less visual clutter when reading code.</p>
+<p>Conditionals in Go have the familiar if-else construction as those
+in C, but the condition need not be wrapped in parentheses. This
+creates less visual clutter when reading code.</p>
 
-<p>Parentheses are not the only clutter that have been removed. A simple statement can be included before the condition so that the following code:</p>
+<p>Parentheses are not the only clutter that have been removed. A
+simple statement can be included before the condition so that the
+following code:</p>
 
 <pre>result := someFunc();
 if result > 0 {
@@ -58,13 +80,20 @@ if result > 0 {
 	/* Handle error */
 }</pre>
 
-<p>However, in the latter example, <code>result</code> is only in scope inside the conditional block. Whereas before it had to be in the containing scope.</p>
+<p>However, in the latter example, <code>result</code> is only in
+scope inside the conditional block. Whereas before it had to be in the
+containing scope.</p>
 
 <h3>Switches</h3>
 
-<p>Switches once again are similar, but improved. Like conditionals, they allow a simple statement to proceed the expression that is being switched upon. However, they deviate even further from their C counterparts.
+<p>Switches once again are similar, but improved. Like conditionals,
+they allow a simple statement to proceed the expression that is being
+switched upon. However, they deviate even further from their C
+counterparts.
 
-<p>First, to make switches more concise, two changes were made. Cases can be comma-separated lists of values, and fallthrough is no longer the default behavior.</p>
+<p>First, to make switches more concise, two changes were made. Cases
+can be comma-separated lists of values, and fallthrough is no longer
+the default behavior.</p>
 
 <p>So, the following C code:</p>
 
@@ -91,7 +120,9 @@ default:
   result = 2
 }</pre>
 
-<p>Second, Go switches can match on much more than integers and characters. Any valid expression can be the value of a case statement, so long as it is the same type as the switch expression.</p>
+<p>Second, Go switches can match on much more than integers and
+characters. Any valid expression can be the value of a case statement,
+so long as it is the same type as the switch expression.</p>
 
 <p>So, the following C code:</p>
 
@@ -115,7 +146,8 @@ default:
   /* zero */
 }</pre>
 
-<p>That idiom is so common, that if the switch value is omitted, it is assumed to be true. So the above could be rewritten as:</p>
+<p>That idiom is so common, that if the switch value is omitted, it is
+assumed to be true. So the above could be rewritten as:</p>
 
 <pre>switch result := calculate(); {
 case result &lt; 0:
@@ -129,7 +161,8 @@ default:
 
 <h3>Loops</h>
 
-Go has only one keyword to introduce a loop. However, it offers all of the looping behaviours available in C except the do-while.
+Go has only one keyword to introduce a loop. However, it offers all of
+the looping behaviours available in C except the do-while.
 
 <h4>Condition</h4>
 
@@ -141,7 +174,8 @@ Go has only one keyword to introduce a loop. However, it offers all of the loopi
 
 <h4>Range</h4>
 
-The right-hand expression of a range clause must be an array, slice, string or map, or a pointer to an array; or it may be a channel.
+The right-hand expression of a range clause must be an array, slice,
+string or map, or a pointer to an array; or it may be a channel.
 
 <pre>for i := range "hello" { /* ... */ }</pre>
 
@@ -151,7 +185,9 @@ The right-hand expression of a range clause must be an array, slice, string or m
 
 <h3>Functions</h3>
 
-<p>The syntax for declaring functions differs from C. As with variable declarations, types are declared after the terms they describe. So the following function in C:</p>
+<p>The syntax for declaring functions differs from C. As with variable
+declarations, types are declared after the terms they describe. So the
+following function in C:</p>
 
 <pre>int add(int a, b) { return a + b }</pre>
 
@@ -161,9 +197,15 @@ The right-hand expression of a range clause must be an array, slice, string or m
 
 <h4>Multiple Return Values</h4>
 
-<p>A common idiom in C is to either reserve a return value to indicate error (e.g. <code>read()</code> returning 0), or to reserve the return value to communicate status and pass in a pointer to a memory location in which to store results. This encourages unsafe programming practices and is not viable in a managed language such as Go.</p>
+<p>A common idiom in C is to either reserve a return value to indicate
+error (e.g. <code>read()</code> returning 0), or to reserve the return
+value to communicate status and pass in a pointer to a memory location
+in which to store results. This encourages unsafe programming
+practices and is not viable in a managed language such as Go.</p>
 
-<p>Recognizing that this problem extends beyond the simple need to communicate both function results and errors, the Go authors built in the capability to return multiple values from a function.</p>
+<p>Recognizing that this problem extends beyond the simple need to
+communicate both function results and errors, the Go authors built in
+the capability to return multiple values from a function.</p>
 
 <p>As an example, a function to return both parts of an integer division:</p>
 
@@ -173,7 +215,11 @@ The right-hand expression of a range clause must be an array, slice, string or m
   return quotient, remainder
 }</pre>
 
-<p>Recognizing that with multiple return values, it is good to have the code document which is which, you can give the return values names just like parameters. You can then assign values to those return variables just like any other. So we could rewrite <code>divide</code> like this:
+<p>Recognizing that with multiple return values, it is good to have
+the code document which is which, you can give the return values names
+just like parameters. You can then assign values to those return
+variables just like any other. So we could rewrite <code>divide</code>
+like this:
 
 <pre>func divide(a, b int) (quotient, remainder int) {
   quotient = a / b
@@ -181,7 +227,10 @@ The right-hand expression of a range clause must be an array, slice, string or m
   return
 }</pre>
 
-<p>The presence of multiple-return values has given rise to the comma-ok pattern. Functions which can fail can return a second, boolean, result to indicate success. Alternatively, they can return an error object. So it's not uncommon to see code like this:</p>
+<p>The presence of multiple-return values has given rise to the
+comma-ok pattern. Functions which can fail can return a second,
+boolean, result to indicate success. Alternatively, they can return an
+error object. So it's not uncommon to see code like this:</p>
 
 <pre>if result, ok := moreMagic(); ok {
   /* Do something with result */
@@ -189,7 +238,11 @@ The right-hand expression of a range clause must be an array, slice, string or m
 
 <h4>Anonymous Functions</h4>
 
-<p>Having a garbage collector opens the door for a wide variety of features. Among those are anonymous functions. Go provides a simple syntax for declaring anonymous functions. These functions create a lexical closure on the scope in which they were defined like blocks in many dynamic languages.</p>
+<p>Having a garbage collector opens the door for a wide variety of
+features. Among those are anonymous functions. Go provides a simple
+syntax for declaring anonymous functions. These functions create a
+lexical closure on the scope in which they were defined like blocks in
+many dynamic languages.</p>
 
 <p>Consider the following program:</p>
 
@@ -205,13 +258,32 @@ func main() {
 
 <h3>Primitive Types</h3>
 
-<p>Like C, Go offers a handful of primitive types. The usual boolean, integer and floating-point types are available. It has a unicode string type and an array type. The language also introduces two new types: slice and map.</p>
+<p>Like C, Go offers a handful of primitive types. The usual boolean,
+integer and floating-point types are available. It has a unicode
+string type and an array type. The language also introduces two new
+types: slice and map.</p>
 
 <h4>Arrays & Slices</h4>
 
-<p>Arrays in Go are not dynamic like they are in C. Their size is part of their type, and is determined at compile time. To index into an array the familiar C syntax is used (e.g. <code>a[i]</code>). The compiler provides a built-in function, which is evaluated at compile time, to determine the length of an array (e.g. <code>len(a)</code>). If a write to an index beyond the bounds of an array is attempted, a run-time error will be generated.</p>
+<p>Arrays in Go are not dynamic like they are in C. Their size is part
+of their type, and is determined at compile time. To index into an
+array the familiar C syntax is used (e.g. <code>a[i]</code>). The
+compiler provides a built-in function, which is evaluated at compile
+time, to determine the length of an array
+(e.g. <code>len(a)</code>). If a write to an index beyond the bounds
+of an array is attempted, a run-time error will be generated.</p>
 
-<p>Go also offers slices, which put a new twist on arrays. A slice represents a contiguous segment of an array. However, it need not represent the entire array, and can grow up to that limit. Once again, the length of a slice can be determined at compile-time. The capacity of a slice (retrievable by <code>cap(s)</code>, where <code>s</code> is a slice) determines how much room the slice has to grow. To construct a slice from an array (or another slice) the syntax <code>a[lo:hi]</code> is used, where <code>lo</code> is a zero-based index and <code>hi</code> is a one-based index. If a slice that goes to the end of the array is desired, <code>hi</code> may be omitted.</p>
+<p>Go also offers slices, which put a new twist on arrays. A slice
+represents a contiguous segment of an array. However, it need not
+represent the entire array, and can grow up to that limit. Once again,
+the length of a slice can be determined at compile-time. The capacity
+of a slice (retrievable by <code>cap(s)</code>, where <code>s</code>
+is a slice) determines how much room the slice has to grow. To
+construct a slice from an array (or another slice) the syntax
+<code>a[lo:hi]</code> is used, where <code>lo</code> is a zero-based
+index and <code>hi</code> is a one-based index. If a slice that goes
+to the end of the array is desired, <code>hi</code> may be
+omitted.</p>
 
 <p>The following code illustrates how arrays and slices work:</p>
 
@@ -236,7 +308,10 @@ a[4] == s[2] == t[1] == 6 //=> true
  
 <h4>Maps</h4>
 
-<p>One data type that is present in most every dynamic language that is popular to day, but that is missing from C, is a dictionary. Go offers a primitive dictionary type called a map. The following example shows how to make and use a Go map.</p>
+<p>One data type that is present in most every dynamic language that
+is popular to day, but that is missing from C, is a dictionary. Go
+offers a primitive dictionary type called a map. The following example
+shows how to make and use a Go map.</p>
 
 <pre>m := make(map[string] int); // A mapping of strings to ints
 
@@ -258,7 +333,11 @@ m["bar"] = nil, false</pre>
 
 <h2>Object Orientation</h2>
 
-<p>The Go language supports a style of object-oriented programming similar to that used in C. Data is grouped together into structs, and then functions are defined which operate on those structs. Similar to Python, the language offers a way to define the functions and then call them so that the syntax is not cumbersome.</p>
+<p>The Go language supports a style of object-oriented programming
+similar to that used in C. Data is grouped together into structs, and
+then functions are defined which operate on those structs. Similar to
+Python, the language offers a way to define the functions and then
+call them so that the syntax is not cumbersome.</p>
 
 <h3>Structs</h3>
 
@@ -268,20 +347,25 @@ m["bar"] = nil, false</pre>
   x, y float64
 }</pre>
 
-<p>Values of this type can now be allocated using the built-in function <code>new</code>, which returns a pointer to the value in memory with all slots initialized to the zero value.</p>
+<p>Values of this type can now be allocated using the built-in
+function <code>new</code>, which returns a pointer to the value in
+memory with all slots initialized to the zero value.</p>
 
 <pre>var p *Point = new(Point)
 p.x = 3
 p.y = 4</pre>
 
-<p>That can get verbose, and one of the goals of the Go language is to be concise whenever possible. So a  syntax is provided that both allocates and initializes the struct at the same time:</p>
+<p>That can get verbose, and one of the goals of the Go language is to
+be concise whenever possible. So a syntax is provided that both
+allocates and initializes the struct at the same time:</p>
 
 <pre>var p1 Point = Point{3,4}  // Value
 var p2 *Point = &amp;Point{3,4} // Pointer</pre>
 
 <h3>Methods</h3>
 
-<p>Once a type has been declared, functions can be declared which take that type as an implicit first parameter:</p>
+<p>Once a type has been declared, functions can be declared which take
+that type as an implicit first parameter:</p>
 
 <pre>func (self Point) Length() float {
   return math.Sqrt(self.x*self.x + self.y*self.y);
@@ -292,7 +376,11 @@ var p2 *Point = &amp;Point{3,4} // Pointer</pre>
 <pre>p := Point{3,4}
 d := p.Length() //=> 5</pre>
 
-<p>Methods can actually be declared on both value and pointer types. Go will handle referencing or dereferencing objects as appropriate, so it is possible to declare methods on both type <code>T</code> and type <code>*T</code> and have them be used as appropriate.</p>
+<p>Methods can actually be declared on both value and pointer
+types. Go will handle referencing or dereferencing objects as
+appropriate, so it is possible to declare methods on both type
+<code>T</code> and type <code>*T</code> and have them be used as
+appropriate.</p>
 
 <p>Let us extend our <code>Point</code> class with a mutator:</p>
 
@@ -308,11 +396,22 @@ func (self *Point) Scale(factor float64) {
 <pre>p.Scale(2);
 d = p.Length() //=> 10</pre>
 
-<p>It is important to understand that the <code>self</code> that is passed in to <code>MoveToXY</code> is a parameter like any other, and parameters are passed-by-value. That is why it must be declared as a pointer type in order to actually change the value. If it were declared as just <code>Point</code>, then the struct that was modified inside the method would not be the same one at the call site.</p>
+<p>It is important to understand that the <code>self</code> that is
+passed in to <code>MoveToXY</code> is a parameter like any other, and
+parameters are passed-by-value. That is why it must be declared as a
+pointer type in order to actually change the value. If it were
+declared as just <code>Point</code>, then the struct that was modified
+inside the method would not be the same one at the call site.</p>
 
 <h3>Interfaces</h3>
 
-<p>Dynamic languages such as Ruby emphasize a style of object-oriented programming that places more importance on what behavior an object has rather than what type that object is. One of the most powerful features that Go brings with it is the ability to program with that duck-typed mentality, and check for adherence to those defined behaviors at compile time. The name given to the behaviors is <em>interfaces</em>.</p>
+<p>Dynamic languages such as Ruby emphasize a style of object-oriented
+programming that places more importance on what behavior an object has
+rather than what type that object is. One of the most powerful
+features that Go brings with it is the ability to program with that
+duck-typed mentality, and check for adherence to those defined
+behaviors at compile time. The name given to the behaviors is
+<em>interfaces</em>.</p>
 
 <p>Defining an interface is simple:</p>
 
@@ -320,9 +419,16 @@ d = p.Length() //=> 10</pre>
   Write(p []byte) (n int, err os.Error)
 }</pre>
 
-<p>That defines an interface with a method for writing a buffer of bytes. Any object which implements that method also implements the interface. No declarations are required as in Java, the compiler just figures it out. This gives the expressiveness of duck-typing with the safety of static type-checking.</p>
+<p>That defines an interface with a method for writing a buffer of
+bytes. Any object which implements that method also implements the
+interface. No declarations are required as in Java, the compiler just
+figures it out. This gives the expressiveness of duck-typing with the
+safety of static type-checking.</p>
 
-<p>The way interfaces behave in Go allows develoeprs to discover their programs' types as they write them. If there are several objects that all have the behavior, and a programmer wishes to abstract on that behavior, she can create an interface and then use that.</p>
+<p>The way interfaces behave in Go allows develoeprs to discover their
+programs' types as they write them. If there are several objects that
+all have the behavior, and a programmer wishes to abstract on that
+behavior, she can create an interface and then use that.</p>
 
 <p>Consider the following code:</p>
 
@@ -347,7 +453,10 @@ func frobtastic(f Frobber) { f.Frob() }</pre>
 
 <h3>Inheritance</h3>
 
-<p>The Go language does not have inheritance, at least not the way most languages do. There is no hierarchy of types. Go encourages the use of composition and delegation over inheritance, and offers some syntax sugar to make it more bearable.</p>
+<p>The Go language does not have inheritance, at least not the way
+most languages do. There is no hierarchy of types. Go encourages the
+use of composition and delegation over inheritance, and offers some
+syntax sugar to make it more bearable.</p>
 
 <p>Given these definitions:</p>
 
@@ -374,9 +483,19 @@ type Car struct {
   /* get out of car */
 }</pre>
 
-<p>When I declared the <code>Car</code> struct, I gave it what is called an <em>anonymous member</em>. That is a member which is identified only by its type. The anonymous member is a member like any other, with a name the same as the type. So I could have also written <code>c.Engine.Start()</code>. The compiler automatically delegates calls made on <code>Car</code> to methods on its <code>Engine</code> if the <code>Car</code> does not have methods of its own to satisfy them.</p>
+<p>When I declared the <code>Car</code> struct, I gave it what is
+called an <em>anonymous member</em>. That is a member which is
+identified only by its type. The anonymous member is a member like any
+other, with a name the same as the type. So I could have also written
+<code>c.Engine.Start()</code>. The compiler automatically delegates
+calls made on <code>Car</code> to methods on its <code>Engine</code>
+if the <code>Car</code> does not have methods of its own to satisfy
+them.</p>
 
-<p>It is important to note, though, that this is syntax sugar on top of <em>delegation</em> not inheritence. Once the anonymous member's method has been called, flow has been delegated to that method entirely. So you cannot simulate type hierarchy like this:</p>
+<p>It is important to note, though, that this is syntax sugar on top
+of <em>delegation</em> not inheritence. Once the anonymous member's
+method has been called, flow has been delegated to that method
+entirely. So you cannot simulate type hierarchy like this:</p>
 
 <pre>type Base struct {}
 func (Base) Magic() { fmt.Print("base magic") }
@@ -390,7 +509,9 @@ type Foo struct {
 }
 func (Foo) Magic() { fmt.Print("foo magic") }</pre>
 
-<p>When you create a <code>Foo</code> object, it will respond to both methods that <code>Base</code> does. However, when you call <code>MoreMagic</code> you will not get the results you expect:</p>
+<p>When you create a <code>Foo</code> object, it will respond to both
+methods that <code>Base</code> does. However, when you call
+<code>MoreMagic</code> you will not get the results you expect:</p>
 
 <pre>f := new(Foo)
 f.Magic() //=> foo magic

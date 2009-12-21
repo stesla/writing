@@ -7,7 +7,7 @@ the language is still experimental and evolving.</p>
 <p>The Go authors set out to design a language that would be simple,
 fast, safe and concurrent. The language is simple enough that it does
 not even require a symbol table to parse. It compiles very quickly;
-subsecond compile times for entire projects are normal. It is
+sub-second compile times for entire projects are normal. It is
 garbage-collected, so it is safe with regards to memory. It is
 statically type-checked and does not allow type coercion, so is safe
 with regards to types. It offers a powerful mechanism for implementing
@@ -97,7 +97,7 @@ switched upon. However, they deviate even further from their C
 counterparts.
 
 <p>First, to make switches more concise, two changes were made. Cases
-can be comma-separated lists of values, and fallthrough is no longer
+can be comma-separated lists of values, and fall-through is no longer
 the default behavior.</p>
 
 <p>So, the following C code:</p>
@@ -167,7 +167,7 @@ default:
 <h3>Loops</h>
 
 Go has only one keyword to introduce a loop. However, it offers all of
-the looping behaviours available in C except the do-while.
+the looping behaviors available in C except the do-while.
 
 <h4>Condition</h4>
 
@@ -264,7 +264,7 @@ func main() {
 <h3>Primitive Types</h3>
 
 <p>Like C, Go offers a handful of primitive types. The usual boolean,
-integer and floating-point types are available. It has a unicode
+integer and floating-point types are available. It has a Unicode
 string type and an array type. The language also introduces two new
 types: slice and map.</p>
 
@@ -324,7 +324,7 @@ shows how to make and use a Go map.</p>
 m["foo"] = 42
 m["bar"] = 30
 
-/* Read, and cause runtime-error if key is not present. */
+/* Read, and cause run-time-error if key is not present. */
 x := m["foo"]
 
 /* Read, with comma-ok check; ok will be false if key was not present. */
@@ -430,7 +430,7 @@ interface. No declarations are required as in Java, the compiler just
 figures it out. This gives the expressiveness of duck-typing with the
 safety of static type-checking.</p>
 
-<p>The way interfaces behave in Go allows develoeprs to discover their
+<p>The way interfaces behave in Go allows developers to discover their
 programs' types as they write them. If there are several objects that
 all have the behavior, and a programmer wishes to abstract on that
 behavior, she can create an interface and then use that.</p>
@@ -498,7 +498,7 @@ if the <code>Car</code> does not have methods of its own to satisfy
 them.</p>
 
 <p>It is important to note, though, that this is syntax sugar on top
-of <em>delegation</em> not inheritence. Once the anonymous member's
+of <em>delegation</em> not inheritance. Once the anonymous member's
 method has been called, flow has been delegated to that method
 entirely. So you cannot simulate type hierarchy like this:</p>
 
@@ -554,7 +554,7 @@ as simple as this:</p>
 }() // Note that the function must be invoked</pre>
 
 <p>These goroutines are mapped to the appropriate operating-system
-concurrency primitives (e.g. POSIX threads) by the Go runtime.</p>
+concurrency primitives (e.g. POSIX threads) by the Go run-time.</p>
 
 <h3>Channels</h3>
 
@@ -659,9 +659,9 @@ has been to produce a language which compiles quickly. With these two
 criteria to steer them, many features from other languages have not
 made it in. Many programmers will find that their favorite language
 feature is not present. Indeed, some feel that the language is
-unsuable for lack of certain features common in other languages.</p>
+unusable for lack of certain features common in other languages.</p>
 
-<p>Two such featues are exceptions and generics. Neither are currently
+<p>Two such features are exceptions and generics. Neither are currently
 part of the Go language...yet. The language is still very young, and
 it is still highly experimental. However, it is important not to
 compare Go to languages such as Java, as it was not meant to compete
@@ -670,4 +670,4 @@ in that arena. When looking at Go, compare it to C.</p>
 <p>Since the language is young, it does not have much in the way of
 libraries or tools. There are no IDEs for Go. There is a standard
 library with some useful code, but it is very small compared to what
-is availble in more mature languages.</p>
+is available in more mature languages.</p>

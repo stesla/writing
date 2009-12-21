@@ -518,15 +518,91 @@ f.Magic() //=> foo magic
 f.MoreMagic() //=> base magic base magic</pre>
 
 <h2>Concurrency</h2>
-Do not communicate by sharing memory; instead, share memory by communicating.
+
+<p>The Go authors chose a message-passing model as their recommended
+method for concurrent programming. The language does still support
+shared memory, however the authors have the following philosophy:</p>
+
+<blockquote>Do not communicate by sharing memory; instead, share
+memory by communicating.</blockquote>
+
+<p>The language offers two basic constructs to achieve this paradigm:
+goroutines and channels.</p>
 
 <h3>Goroutines</h3>
-*** user-space, lightweight concurrency
-*** mapped on to OS concurrency by the runtime
+
+<p>Goroutines are lightweight parallel paths of program execution similar
+to threads, coroutines, or processes. However, they are sufficiently
+different from each that the Go authors elected to give them a new
+name and discard any connotative baggage that the other terms might
+have.</p>
+
+<p>Spawning a goroutine to run a function named <code>DoThis</code> is
+as simple as this:</p>
+
+<pre>go DoThis() // but do not wait for it to complete</pre>
+
+<p>Anonymous functions can also be used:</p>
+
+<pre>go func() {
+  for { /* do something forever */ }
+}() // Note that the function must be invoked</pre>
+
+<p>These goroutines are mapped to the appropriate operating-system
+concurrency primitives (e.g. POSIX threads) by the Go runtime.</p>
 
 <h3>Channels</h3>
-*** Essentially FIFO communication queue.
-*** blocking vs non-blocking
+
+<p>With goroutines, parallel execution of code is easy. However, a
+mechanism for communicating between them is still needed. Channels
+provide a FIFO communication queue that can be used for just this
+purpose.</p>
+
+<p>Here is the syntax for working with channels:</p>
+
+<pre>/* Creating a channel uses make, not new */
+ch := make(chan int)
+
+/* Sending a value blocks until the value is read */
+ch <- 4
+
+/* Reading a value blocks until a value is available */
+i := <-ch</pre>
+
+<p>For example, if we wanted to do some long-running numerical
+computation we could do this:</p>
+
+<pre>ch := make(chan int)
+
+go func() {
+  result := 0
+  for i := 0; i < 100000000; i++ {
+    result = result + i
+  }
+  ch <- result
+}()
+
+/* Do something for a while */
+
+sum := <-ch // This will block if the calculation is not done yet
+fmt.Println("The sum is:", sum)</pre>
+
+<p>The blocking behavior of channels is not always the best. The
+language offers two ways to customize this. A programmer can specify a
+buffer size. Sends to a buffered channel will not block unless
+the buffer is full, and reads from a buffered channel will not block
+unless the buffer is empty. The language also offers the ability to
+send and receive without ever blocking, while still reporting if the
+operation succeeded.</p>
+
+<pre>/* Create a channel with buffer size 5 */
+ch := make(chan int, 5)
+
+/* Send without blocking, ok will be true if value was buffered */
+ok := ch <- 42
+
+/* Read without blocking, ok will be true if a value was read */
+val, ok := <-ch</pre>
 
 <h2>Packages</h2>
 ** visibility outside of package indicated with Capital letters.

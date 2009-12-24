@@ -1,8 +1,8 @@
 On my first Go project, I used gotest. After a while, I found that I
 really did miss the features of frameworks in other languages. So, I
 wrote one. Gospecify is a behavior-driven development (BDD)
-framework. Rather than focus on testing every nook and cranny of an
-object, it helps a programmer produce an executable specification of
-the object's behavior. The language's syntax allowed for gospecify to
+framework. Rather than focus on testing every nook and cranny of some
+code, it helps a programmer produce an executable specification of
+that code's behavior. The language's syntax allowed for gospecify to
 be almost as expressive as Ruby's rpsec; however, a few tricks had to
 be used to achieve the best readability.

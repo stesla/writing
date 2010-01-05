@@ -1,4 +1,4 @@
-<h2>What is Go?</h2>
+﻿<h2>What is Go?</h2>
 <p>Google recently announced their new programming language, Go. It is
 designed to bring some of the advances of modern programming languages
 back down to the systems arena where C still dominates today. However,
@@ -164,7 +164,7 @@ default:
 }</pre>
 
 
-<h3>Loops</h>
+<h3>Loops</h3>
 
 Go has only one keyword to introduce a loop. However, it offers all of
 the looping behaviors available in C except the do-while.
@@ -224,7 +224,8 @@ the capability to return multiple values from a function.</p>
 the code document which is which, you can give the return values names
 just like parameters. You can then assign values to those return
 variables just like any other. So we could rewrite <code>divide</code>
-like this:
+
+like this:</p>
 
 <pre>func divide(a, b int) (quotient, remainder int) {
   quotient = a / b
@@ -394,7 +395,7 @@ appropriate.</p>
 func (self *Point) Scale(factor float64) {
   self.x = self.x * factor
   self.y = self.y * factor
-}<pre>
+}</pre>
 
 <p>Then we can call it like this:</p>
 
@@ -651,23 +652,26 @@ func (self *Point) Scale(factor float64) {
 func (self *Point) setX(x float64) { self.x = x }
 func (self *Point) setY(y float64) { self.y = y }</pre>
 
-<h2>What's Missing
+<h2>What's Missing</h2>
 
 <p>The Go authors have tried to let clarity of code guide all of their
 decisions regarding the design of the language. A secondary mission
 has been to produce a language which compiles quickly. With these two
 criteria to steer them, many features from other languages have not
 made it in. Many programmers will find that their favorite language
-feature is not present. Indeed, some feel that the language is
-unusable for lack of certain features common in other languages.</p>
+feature is not present and indeed some may feel that the language is
+not yet usable for lack of certain features common in other languages.</p>
 
-<p>Two such features are exceptions and generics. Neither are currently
-part of the Go language...yet. The language is still very young, and
-it is still highly experimental. However, it is important not to
-compare Go to languages such as Java, as it was not meant to compete
-in that arena. When looking at Go, compare it to C.</p>
+<p>Two such missing features are exceptions and generics, both very
+helpful in other languages. Neither feature is currently part of Go.
+But since the language is still experimental, these may make it in
+there eventually. However, when comparing Go to other languages, we
+should remember that Go is intended to be a replacement for C in
+systems programming. And in this light, the various missing features
+don't look like such a drawback.</p>
 
-<p>Since the language is young, it does not have much in the way of
-libraries or tools. There are no IDEs for Go. There is a standard
-library with some useful code, but it is very small compared to what
-is available in more mature languages.</p>
+<p>Finally, since the language has just been released, it does not have
+much in the way of libraries or tools: there are no IDEs for Go. The
+standard library has useful code, but it is small compared to what is
+available in more established languages.</p>
+

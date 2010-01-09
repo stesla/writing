@@ -1,0 +1,19 @@
+-*- Outline -*-
+
+* The Dynamic Straw Man
+
+** Building The Straw Man
+*** No type annotations
+Dynamic languages let programmers focus on their business logic instead of typing out boilerplate for the compiler.
+*** Ease of modification
+Variables are not typed, so when you change the interface of some piece of code, you do not have to make edits to all of the code that uses it.
+*** Ease of prototyping
+Dynamic languages are malleable, so you spend your time exploring ideas instead of dueling with the compiler.
+*** Meta-programming is useful
+Meta-programming is powerful and allows programmers to grow internal DSLs designed specifically to solve problems in the domain of interest.
+
+** Tearing The Straw Man Down
+*** Typing is not the bottleneck
+*** Coupling is not cured by ignoring it
+*** Prototypes that are wrong are not useful
+*** Meta-programming is not exclusively dynamic

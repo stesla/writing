@@ -1,5 +1,5 @@
 ﻿<h2>What is Go?</h2>
-<p>Google recently announced their new programming language, Go. It is
+<p>Google recently announced their new programming language, <a href="http://golang.org">Go</a>. It is
 designed to bring some of the advances of modern programming languages
 back down to the systems arena where C still dominates today. However,
 the language is still experimental and evolving.</p>
@@ -10,7 +10,7 @@ not even require a symbol table to parse. It compiles very quickly;
 sub-second compile times for entire projects are normal. It is
 garbage-collected, so it is safe with regards to memory. It is
 statically type-checked and does not allow type coercion, so is safe
-with regards to types. It offers a powerful mechanism for implementing
+with regards to types. It also offers a powerful mechanism for implementing
 concurrency that is built right into the language.</p>
 
 <h2>Reading Go</h2>
@@ -19,7 +19,7 @@ concurrency that is built right into the language.</p>
 organized as functions whose bodies are a sequence of
 statements. Blocks of code are surrounded by curly-braces. The
 language has a limited set of reserved keywords. Expressions use the
-same infix operators. There are very few syntactical surprises.</p>
+same <a href="http://en.wikipedia.org/wiki/Infix_notation">infix operators</a>. There are very few syntactical surprises.</p>
 
 <p>The Go authors have adhered to a single guiding principle when
 designing the language: simplicity and clarity above all else. Several
@@ -62,7 +62,7 @@ which both declares and initializes a new variable:</p>
 
 <h3>Conditionals</h3>
 
-<p>Conditionals in Go have the familiar if-else construction as those
+<p>Conditionals in Go have the same familiar if-else construction as those
 in C, but the condition need not be wrapped in parentheses. This
 creates less visual clutter when reading code.</p>
 
@@ -86,7 +86,7 @@ if result &gt; 0 {
 }</pre>
 
 <p>However, in the latter example, <code>result</code> is only in
-scope inside the conditional block. Whereas before it had to be in the
+scope <strong>inside</strong> the conditional block -- in the former, it is available in the
 containing scope.</p>
 
 <h3>Switches</h3>
@@ -122,7 +122,7 @@ switch byte {
 case 'a', 'b':
   result = 1
 default:
-  result = 2
+  result = 0
 }</pre>
 
 <p>Second, Go switches can match on much more than integers and
@@ -179,8 +179,8 @@ the looping behaviors available in C except the do-while.
 
 <h4>Range</h4>
 
-The right-hand expression of a range clause must be an array, slice,
-string or map, or a pointer to an array; or it may be a channel.
+The right-hand expression of a range clause must be an <a href="http://golang.org/doc/go_spec.html#Array_types">array</a>, <a href="http://golang.org/doc/go_spec.html#Slice_types">slice</a>,
+<a href="http://golang.org/doc/go_spec.html#String_types">string</a> or <a href="http://golang.org/doc/go_spec.html#Map_types">map</a>, or a pointer to an array; or it may be a <a href="http://golang.org/doc/go_spec.html#Channel_types">channel</a>.
 
 <pre>for i := range "hello" { /* ... */ }</pre>
 
@@ -212,7 +212,7 @@ practices and is not viable in a managed language such as Go.</p>
 communicate both function results and errors, the Go authors built in
 the capability to return multiple values from a function.</p>
 
-<p>As an example, a function to return both parts of an integer division:</p>
+<p>As an example, this is a function to return both parts of an integer division:</p>
 
 <pre>func divide(a, b int) (int, int) {
   quotient := a / b
@@ -220,11 +220,10 @@ the capability to return multiple values from a function.</p>
   return quotient, remainder
 }</pre>
 
-<p>Recognizing that with multiple return values, it is good to have
-the code document which is which, you can give the return values names
+<p>With multiple return values, it is good to have
+the code document which is which - Go allows you to give the return values names,
 just like parameters. You can then assign values to those return
 variables just like any other. So we could rewrite <code>divide</code>
-
 like this:</p>
 
 <pre>func divide(a, b int) (quotient, remainder int) {
@@ -234,7 +233,7 @@ like this:</p>
 }</pre>
 
 <p>The presence of multiple-return values has given rise to the
-comma-ok pattern. Functions which can fail can return a second,
+"comma-ok" pattern. Functions which can fail can return a second,
 boolean, result to indicate success. Alternatively, they can return an
 error object. So it's not uncommon to see code like this:</p>
 
@@ -245,7 +244,7 @@ error object. So it's not uncommon to see code like this:</p>
 <h4>Anonymous Functions</h4>
 
 <p>Having a garbage collector opens the door for a wide variety of
-features. Among those are anonymous functions. Go provides a simple
+features - among those are anonymous functions. Go provides a simple
 syntax for declaring anonymous functions. These functions create a
 lexical closure on the scope in which they were defined like blocks in
 many dynamic languages.</p>
@@ -267,13 +266,14 @@ func main() {
 <p>Like C, Go offers a handful of primitive types. The usual boolean,
 integer and floating-point types are available. It has a Unicode
 string type and an array type. The language also introduces two new
-types: slice and map.</p>
+types: <a href="http://golang.org/doc/go_spec.html#Slice_types">slice</a>
+and <a href="http://golang.org/doc/go_spec.html#Map_types">map</a>.</p>
 
 <h4>Arrays &amp; Slices</h4>
 
 <p>Arrays in Go are not dynamic like they are in C. Their size is part
 of their type, and is determined at compile time. To index into an
-array the familiar C syntax is used (e.g. <code>a[i]</code>). The
+array the familiar C syntax is used (e.g. <code>a[i]</code>), and as with C an array index is 0-based. The
 compiler provides a built-in function, which is evaluated at compile
 time, to determine the length of an array
 (e.g. <code>len(a)</code>). If a write to an index beyond the bounds
@@ -286,8 +286,11 @@ the length of a slice can be determined at compile-time. The capacity
 of a slice (retrievable by <code>cap(s)</code>, where <code>s</code>
 is a slice) determines how much room the slice has to grow. To
 construct a slice from an array (or another slice) the syntax
-<code>a[lo:hi]</code> is used, where <code>lo</code> is a zero-based
-index and <code>hi</code> is a one-based index. If a slice that goes
+<code>a[lo:hi]</code> is used, where <code>lo</code> is the first
+indexed element which is included in the slice and <code>hi</code>
+is the first indexed element which is <strong>NOT</strong> included
+in the slice - this is similar behaviour to the Java <code><a href="http://java.sun.com/javase/6/docs/api/java/lang/String.html#substring%28int,%20int%29">substring(int, int)</a></code> function
+(first value inclusive, last value exclusive). If a slice that goes
 to the end of the array is desired, <code>hi</code> may be
 omitted.</p>
 
@@ -314,10 +317,10 @@ a[4] == s[2] == t[1] == 6 //=> true
  
 <h4>Maps</h4>
 
-<p>One data type that is present in most every dynamic language that
-is popular to day, but that is missing from C, is a dictionary. Go
+<p>One data type that is present in almost every dynamic language that
+is popular today, but that is missing from C, is a dictionary. Go
 offers a primitive dictionary type called a map. The following example
-shows how to make and use a Go map.</p>
+shows how to make and use a Go map:</p>
 
 <pre>m := make(map[string] int) // A mapping of strings to ints
 
@@ -325,7 +328,7 @@ shows how to make and use a Go map.</p>
 m["foo"] = 42
 m["bar"] = 30
 
-/* Read, and cause run-time-error if key is not present. */
+/* Read, and cause runtime error if key is not present. */
 x := m["foo"]
 
 /* Read, with comma-ok check; ok will be false if key was not present. */
@@ -404,16 +407,16 @@ d = p.Length() //=> 10</pre>
 
 <p>It is important to understand that the <code>self</code> that is
 passed in to <code>MoveToXY</code> is a parameter like any other, and
-parameters are passed-by-value. That is why it must be declared as a
+parameters are passed by <strong>value</strong>, not by reference. That is why it must be declared as a
 pointer type in order to actually change the value. If it were
 declared as just <code>Point</code>, then the struct that was modified
-inside the method would not be the same one at the call site.</p>
+inside the method would not be the same one at the call site - values are copied when they are passed to a function, they are also discarded at the end of it.</p>
 
 <h3>Interfaces</h3>
 
 <p>Dynamic languages such as Ruby emphasize a style of object-oriented
 programming that places more importance on what behavior an object has
-rather than what type that object is. One of the most powerful
+rather than what type that object is (<a href="http://en.wikipedia.org/wiki/Duck_typing">duck typing</a>). One of the most powerful
 features that Go brings with it is the ability to program with that
 duck-typed mentality, and check for adherence to those defined
 behaviors at compile time. The name given to the behaviors is
@@ -433,8 +436,8 @@ safety of static type-checking.</p>
 
 <p>The way interfaces behave in Go allows developers to discover their
 programs' types as they write them. If there are several objects that
-all have the behavior, and a programmer wishes to abstract on that
-behavior, she can create an interface and then use that.</p>
+all have the behavior, and a developer wishes to abstract on that
+behavior, they can create an interface and then use that.</p>
 
 <p>Consider the following code:</p>
 
@@ -462,7 +465,7 @@ func frobtastic(f Frobber) { f.Frob() }</pre>
 <p>The Go language does not have inheritance, at least not the way
 most languages do. There is no hierarchy of types. Go encourages the
 use of composition and delegation over inheritance, and offers some
-syntax sugar to make it more bearable.</p>
+syntactic sugar to make it more bearable.</p>
 
 <p>Given these definitions:</p>
 
@@ -498,8 +501,7 @@ calls made on <code>Car</code> to methods on its <code>Engine</code>
 if the <code>Car</code> does not have methods of its own to satisfy
 them.</p>
 
-<p>It is important to note, though, that this is syntax sugar on top
-of <em>delegation</em> not inheritance. Once the anonymous member's
+<p>It is important to note, though, that this is built upon <strong>delegation</strong>, not inheritance. Once the anonymous member's
 method has been called, flow has been delegated to that method
 entirely. So you cannot simulate type hierarchy like this:</p>
 
@@ -533,7 +535,7 @@ shared memory, however the authors have the following philosophy:</p>
 memory by communicating.</blockquote>
 
 <p>The language offers two basic constructs to achieve this paradigm:
-goroutines and channels.</p>
+<a href="http://golang.org/doc/go_spec.html#Go_statements">goroutines</a> and <a href="http://golang.org/doc/go_spec.html#Channel_types">channels</a>.</p>
 
 <h3>Goroutines</h3>
 
@@ -555,7 +557,7 @@ as simple as this:</p>
 }() // Note that the function must be invoked</pre>
 
 <p>These goroutines are mapped to the appropriate operating-system
-concurrency primitives (e.g. POSIX threads) by the Go run-time.</p>
+concurrency primitives (e.g. POSIX threads) by the Go runtime.</p>
 
 <h3>Channels</h3>
 
@@ -566,7 +568,7 @@ purpose.</p>
 
 <p>Here is the syntax for working with channels:</p>
 
-<pre>/* Creating a channel uses make, not new */
+<pre>/* Creating a channel uses make(), not new - it was also used for map creation */
 ch := make(chan int)
 
 /* Sending a value blocks until the value is read */
@@ -594,12 +596,17 @@ sum := &lt;-ch // This will block if the calculation is not done yet
 fmt.Println("The sum is:", sum)</pre>
 
 <p>The blocking behavior of channels is not always the best. The
-language offers two ways to customize this. A programmer can specify a
-buffer size. Sends to a buffered channel will not block unless
-the buffer is full, and reads from a buffered channel will not block
-unless the buffer is empty. The language also offers the ability to
+language offers two ways to customize this:</p>
+
+<ol>
+<li>A programmer can specify a
+buffer size - sending to a buffered channel will not block unless
+the buffer is full, and reading from a buffered channel will not block
+unless the buffer is empty</li>
+<li>The language also offers the ability to
 send and receive without ever blocking, while still reporting if the
-operation succeeded.</p>
+operation succeeded</li>
+</ol>
 
 <pre>/* Create a channel with buffer size 5 */
 ch := make(chan int, 5)
@@ -614,9 +621,8 @@ val, ok := &lt;-ch</pre>
 
 <p>Go offers a simple mechanism for organizing code: packages. Each
 file begins with a simple declaration of what package it belongs
-to. Each file can import the packages it uses. Names are exported
-from a package simply by virtue of beginning with a capital
-letter.</p>
+to, and each file can import the packages it uses. Any names which begin with a capital letter are exported
+from a package, and are available to be used by other packages.</p>
 
 <p>Here is a complete source file:</p>
 
@@ -672,6 +678,6 @@ don't look like such a drawback.</p>
 
 <p>Finally, since the language has just been released, it does not have
 much in the way of libraries or tools: there are no IDEs for Go. The
-standard library has useful code, but it is small compared to what is
+<a href="http://golang.org/pkg/">standard library</a> has useful code, but it is small compared to what is
 available in more established languages.</p>
 

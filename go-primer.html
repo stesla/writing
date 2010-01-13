@@ -280,21 +280,43 @@ time, to determine the length of an array
 of an array is attempted, a run-time error will be generated.</p>
 
 <p>Go also offers slices, which put a new twist on arrays. A slice
-represents a contiguous segment of an array. However, it need not
-represent the entire array, and can grow up to that limit. Once again,
-the length of a slice can be determined at compile-time. The capacity
-of a slice (retrievable by <code>cap(s)</code>, where <code>s</code>
-is a slice) determines how much room the slice has to grow. To
-construct a slice from an array (or another slice) the syntax
-<code>a[lo:hi]</code> is used, where <code>lo</code> is the first
-indexed element which is included in the slice and <code>hi</code>
-is the first indexed element which is <strong>NOT</strong> included
-in the slice - this is similar behaviour to the Java <code><a href="http://java.sun.com/javase/6/docs/api/java/lang/String.html#substring%28int,%20int%29">substring(int, int)</a></code> function
-(first value inclusive, last value exclusive). If a slice that goes
-to the end of the array is desired, <code>hi</code> may be
-omitted.</p>
+represents a contiguous segment of an array, allowing a programmer to
+refer to specific sections of the underlying storage. The syntax for
+constructing a slice is similar to the syntax for accessing an array
+element:</p>
 
-<p>The following code illustrates how arrays and slices work:</p>
+<pre>
+/* Construct a slice on ary that starts at s and is len elements long */
+s1 := ary[s:len]
+
+/* Omit the length to create a slice to the end of ary */
+s2 := ary[s:]
+
+/* Slices behave just like arrays */
+s[0] == ary[s] //=> true
+
+// Changing the value in a slice changes it in the array
+ary[s] = 1
+s[0] = 42
+ary[s] == 42 //=> true
+</pre>
+
+<p>The segment of the array that the slice references can be changed by
+assigning a new slice to the same variable:</p>
+
+<pre>/* Move the start of the slice forward by one, but do not move the end */
+s2 = s2[1:]
+
+/* Slices can only move forward */
+s2 = s2[-1:] // this is a compile error</pre>
+
+<p>The length of a slice can be changed so long as it does not exceed the
+slice's <em>capacity</em>. The capacity of a slice <code>s</code> is
+the size of the array from <code>s[0]</code> to the end of the array,
+and is returned by the <code>cap()</code> built-in function. A slice's
+length can never exceed its capacity.</p>
+
+<p>Here is an example that shows how length and capacity interact:</p>
 
 <pre>a := [...]int{1,2,3,4,5} // The ... means "whatever length the initializer has"
 len(a) //=> 5
@@ -307,14 +329,19 @@ len(s), cap(s) //=> 2, 3
 s = s[0:3] //=> [3 4 5]
 len(s), cap(s) //=> 3, 3
 
-/* Slice all the way to the end */
-t := a[3:] //=> [4 5]
+/* Cannot grow it past its capacity */
+s = s[0:4] // this is a compile error</pre>
 
-/* They all share the same array */
-a[4] = 6
-a[4] == s[2] == t[1] == 6 //=> true
-</pre>
- 
+<p>Often, a slice is all that is needed for a program. In that case, a
+programmer need not have an array at all. Go offers two ways to make
+slices directly without ever referencing the underlying storage:</p>
+
+<pre>/* literal */
+s1 := []int{1,2,3,4,5}
+
+/* empty (all zero values) */
+s2 := make([]int, 10) // cap(s2) == len(s2) == 10</pre>
+
 <h4>Maps</h4>
 
 <p>One data type that is present in almost every dynamic language that
@@ -328,7 +355,7 @@ shows how to make and use a Go map:</p>
 m["foo"] = 42
 m["bar"] = 30
 
-/* Read, and cause runtime error if key is not present. */
+/* Read, and exit program with a runtime error if key is not present. */
 x := m["foo"]
 
 /* Read, with comma-ok check; ok will be false if key was not present. */
@@ -337,8 +364,14 @@ x, ok := m["bar"]
 /* Check for presence of key, _ means "I don't care about this value." */
 _, ok := m["baz"] // ok == false
 
+/* Assign zero as a valid value */
+m["foo"] = 0;
+_, ok := m["foo"] // ok == true
+
 /* Delete a key */
-m["bar"] = nil, false</pre>
+m["bar"] = 0, false
+_, ok := m["bar"] // ok == false
+</pre>
 
 <h2>Object Orientation</h2>
 
@@ -501,7 +534,13 @@ calls made on <code>Car</code> to methods on its <code>Engine</code>
 if the <code>Car</code> does not have methods of its own to satisfy
 them.</p>
 
-<p>It is important to note, though, that this is built upon <strong>delegation</strong>, not inheritance. Once the anonymous member's
+<p>The rules for resolving methods provided by anonymous members are
+conservative. If a method is defined for a type, it is used. If not,
+and a method is defined for an anonymous member that is used. If there
+are two anonymous members that both provide a method, the compiler
+will produce an error, but only if that method is called.</p>
+
+<p>This composition is achieved via <strong>delegation</strong>, not inheritance. Once the anonymous member's
 method has been called, flow has been delegated to that method
 entirely. So you cannot simulate type hierarchy like this:</p>
 

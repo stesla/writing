@@ -1,0 +1,28 @@
+-*- Outline -*-
+
+* About Me
+** Dev Lead at Engine Yard 
+Ruby
+** I love programming languages
+C, C++, C#, Delphi, Java, Ruby, Perl, ML, Smalltalk, Lisp, Haskell, Erlang
+...and Go
+
+* BDD
+** TDD done right
+** About design
+** Describing external interfaces
+** Building two clients for the code: specs & UI
+** Regression suite is a side-effect
+
+* gospecify
+** Describe = TestCase
+** pending specs
+** basic expectations
+*** Be
+*** BeEqual
+*** BeWithin
+*** BeLessThan
+*** BeGreaterThan
+** before = setup, after = teardown
+** fields
+** custom matchers

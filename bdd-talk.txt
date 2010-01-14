@@ -11,7 +11,7 @@ C, C++, C#, Delphi, Java, Ruby, Perl, ML, Smalltalk, Lisp, Haskell, Erlang
 ** TDD done right
 ** About design
 ** Describing external interfaces
-** Building two clients for the code: specs & UI
+** Building two clients for the code: specs & prod app
 ** Regression suite is a side-effect
 
 * gospecify

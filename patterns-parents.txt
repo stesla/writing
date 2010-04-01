@@ -1,0 +1,28 @@
+There's been a lot chatter on the tubes lately about design patterns, and how they don't apply to Ruby, and specifically Rails. This is absurd, and only illustrates how short-sighted many of the leaders of the Rails community are. The original collection of Design Patterns presented in the 1994 book are fundamental, language-independent, object-oriented design techniques that are appropriate to use in <em>any</em> language. The implementation details may vary, but the designs are still there. 
+
+<h3>The Basic Argument</h3>
+
+The basic argument shows up in a few different guises, but ultimately amounts to the same tripe: our language is more modern than design patterns, so we don't need 'em. Here are a few versions of the argument that are very popular:
+
+<ul>
+<li>The Gang of Four book was published in 1994, it's so outdated. Can we just all move into the 21st century and stop talking about it already?</li>
+<li>Design patterns were devised to get around limitations in languages like Java and C++. We don't have those limitations in Ruby, so we don't need no steenking design patterns.</li>
+<li>If we think in design patterns, then we'll be writing Java in Ruby instead of writing idiomatic Ruby.</li>
+</ul>
+
+What this all boils down to is that design patterns are something <em>Java</em> programmers use. Rails and to a lesser extent Ruby is the <em>anti-Java</em>, so we must eschew anything that has even the slightest taint of association. This includes but is not limited to design patterns. Pay no attention to the origins of design patterns in Smalltalk. Do not look at the book hiding behind the curtain. Design patterns are Java-tainted, so they cannot be trusted and must not be used. Do not learn them.
+
+To use a metaphor, all these young Rails-kids hate their Java-parents music. They don't think that any of those old records have anything worth listening to, and can't understand why their parents don't like the new hotness.
+
+<h3>A Deeper Look</h3>
+
+<h4>Design Patterns Are Outdated</h4>
+
+<h4>Design Patterns Are Missing Language Features</h4>
+
+<h4>Design Patterns Will Turn Our Code Into Java</h4>
+
+<h4>
+
+
+<h3>In Conclusion: Stop Being Twats</h3>
